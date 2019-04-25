@@ -1,0 +1,29 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div style="text-align:center">
+  <h1>
+    {{ title }}!
+  </h1>
+
+  <form [formGroup]="songForm" (ngSubmit)="onSubmit()">
+
+    <select (change)=onChange() [formControl] = "songForm.controls['albumControl']">
+      <option [ngValue]="album" *ngFor="let album of albums"> {{album.title}}</option>
+    </select> <br>
+
+    titolo: <input [formControl] = "songForm.controls['titleControl']"> <br>
+    durata : <input [formControl] = "songForm.controls['dateControl']"> <br>
+    data pubblicazione: <input type = "date" [formControl] = "songForm.controls['lengthControl']"> <br>
+   <button> Aggiungi </button>
+
+  </form>
+
+
+  {{selectedRoom | json}}
+
+ <ul>
+   <li *ngFor="let song of songList">
+    {{song.album.title}} : {{song | json}}
+   </li>
+ </ul> 
+
+
