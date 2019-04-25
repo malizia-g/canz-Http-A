@@ -8,9 +8,6 @@ export class Song
         public durata : number,
         public title : String,
     
-
-        //colore del disco
-        //link allo streaming
     ) {}
     
 }
