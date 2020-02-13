@@ -1,31 +1,49 @@
-<div style="text-align:center">
+<div>
   <h1>
     Welcome to {{ title }}!
   </h1>
 
-  <form>
-    <select (change)=onChange($event.target.value)>
-      <option [value]="album.id" *ngFor="let album of albums"> {{album.title}}</option>
-    </select> <br>
+  <h2>
+    1) Scegli un disco dall'elenco
+  </h2>
+  <!--Questo codice serve a generare una comb box. selectedOption contiene il titolo della canzone
+  selezionata poichè in [value] abbiamo scelto di usare il titolo dell'album -->
+  <select [(ngModel)]="selectedOption">
+    <option [value]="album.title" *ngFor="let album of albums"> {{album.title}}</option>
+  </select> <br>
 
-    titolo: <input #t> <br>
-    durata : <input #l> <br>
-    data pubblicazione: <input type = "date" #d> <br>
+  <!--Questo codice stampa il titolo dell'album selezionato
+  Serve solo a scopo di debug, puoi eliminarlo dall'applicazione finale-->
+  {{selectedOption}}
 
-    <button (click)= "onClick(t,d,l)"> Prenota </button>
+  <hr>
 
-  </form>
+  <!--Questo codice visualizza il testo 2 e la form solo se selectedOption è definito (diverso da undefined)-->
+  <div *ngIf="selectedOption">
+    <h3>
+      2) Ora seleziona una canzone da aggiungere all'album selezionato
+    </h3>
 
+
+    <!--Premendo prenota si inviano le informazioni sulla canzone al metodo onClick-->
+    <form>
+      <input #t> : titolo <br>
+      <input #l> : durata <br>
+      <input type="date" #d> : pubblicazione<br>
+      <button (click)="onClick(t,d,l)"> Aggiungi canzone </button>
+    </form>
+  </div>
 
   {{selectedRoom | json}}
 
- <ul>
-   <li *ngFor="let song of songList">
-    {{song.album.title}} : {{song | json}}
-   </li>
- </ul>
+  <!--Questo codice stampa ogni canzone della songList preceduta dal titolo del suo album
+  Serve solo a scopo di debug, puoi eliminarlo dall'applicazione finale-->
+  <ul>
+    <li *ngFor="let song of songList">
+      {{song.album.title}} : {{song | json}}
+    </li>
+  </ul>
 
-
- {{songList | json}}
-
-CIAO
+  <!--Questo codice stampa l'oggetto song list in formato JSON
+  Serve solo a scopo di debug, puoi eliminarlo dall'applicazione finale-->
+  {{songList | json}}

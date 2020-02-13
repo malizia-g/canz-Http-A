@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { AlbumList } from './albumList.model';
 import { Album } from './album.model';
 import { Song } from './song.model';
@@ -12,10 +12,11 @@ import { Song } from './song.model';
 
 export class AppComponent {
   
+  selectedOption : string;
   title = "Benvenuti al canzoniere";
   albums = AlbumList;
   selectedAlbum: Album = AlbumList[0];
-  songList: Song[];
+  songList: Song[];  //Questo vettore va passato al componente sonList
  
 
   constructor() { }
@@ -24,22 +25,17 @@ export class AppComponent {
   }
 
 
-  //Controllo se l'id dell'album selezionato è nell'elenco.
-  //In questo caso imposto la variabile selectedRoom
-  onChange(a_id: number) {
-    AlbumList.forEach(
-      (album: Album) => {
-        if (album.id == a_id) {
-          this.selectedAlbum = album;
-          console.log(this.selectedAlbum);
-        }
-      }
-    )
-  }
-
+  /*Il metodo on CLick controlla cerca l'album selezionato in base al titolo e aggiunge la canzone
+  Selezionata alla songList*/
   onClick(t: HTMLInputElement  ,d : HTMLInputElement, l :HTMLInputElement ) : boolean
   {
+    this.selectedAlbum = AlbumList.find((album: Album) => album.title == this.selectedOption);
     this.songList.push(new Song(this.selectedAlbum, new Date(d.value), Number(l.value), t.value));
+    //Dopo aver aggiunto la canzone azzero tutti i campi
+    t.value ="";
+    d.value ="";
+    l.value="";
+    this.selectedOption = undefined;
     return false;
   }
 
