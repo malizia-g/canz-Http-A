@@ -8,7 +8,7 @@
   </h2>
   <!--Questo codice serve a generare una comb box. selectedOption contiene il titolo della canzone
   selezionata poichè in [value] abbiamo scelto di usare il titolo dell'album -->
-  <select [(ngModel)]="selectedOption">
+  <select [(ngModel)]="selectedOption"  (change)="onChange()">
     <option [value]="album.title" *ngFor="let album of albums"> {{album.title}}</option>
   </select> <br>
 
@@ -36,12 +36,11 @@
 
   <!--Questo codice stampa ogni canzone della songList preceduta dal titolo del suo album
   Serve solo a scopo di debug, puoi eliminarlo dall'applicazione finale-->
-  <ul>
-    <li *ngFor="let song of songList">
-      {{song.album.title}} : {{song | json}}
-    </li>
-  </ul>
+  
+  <app-song-list [listaCanzoni] = songList class="card"></app-song-list>
 
   <!--Questo codice stampa l'oggetto song list in formato JSON
   Serve solo a scopo di debug, puoi eliminarlo dall'applicazione finale-->
-  {{songList | json}}
+
+  <app-dettagli [album]="selectedAlbum" class="card"></app-dettagli>
+  

@@ -2,6 +2,8 @@ import { Component, Input } from '@angular/core';
 import { AlbumList } from './albumList.model';
 import { Album } from './album.model';
 import { Song } from './song.model';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -17,13 +19,22 @@ export class AppComponent {
   albums = AlbumList;
   selectedAlbum: Album = AlbumList[0];
   songList: Song[];  //Questo vettore va passato al componente sonList
- 
+  obsSongs : Observable<Song[]>;
+  
+  constructor(public  http: HttpClient) { 
 
-  constructor() { }
-  ngOnInit() {
-    this.songList = new Array <Song>();
   }
 
+  ngOnInit() {
+    this.songList = new Array <Song>();
+    this.obsSongs = this.http.get<Song[]>("https://my-json-server.typicode.com/malizia-g/hotel/songlist");
+    this.obsSongs.subscribe(this.getSongs);
+  }
+
+  getSongs = (data : Song[]) =>
+  {
+    this.songList = data;
+  }
 
   /*Il metodo on CLick controlla cerca l'album selezionato in base al titolo e aggiunge la canzone
   Selezionata alla songList*/
@@ -39,5 +50,10 @@ export class AppComponent {
     return false;
   }
 
+
+  onChange()
+  {
+    this.selectedAlbum = AlbumList.find((album: Album) => album.title == this.selectedOption);
+  }
 }
 

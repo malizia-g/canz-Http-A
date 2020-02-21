@@ -1,0 +1,12 @@
+<p>song-list works!</p>
+
+<button class="btn btn-primary" (click)="hideList()">nascondi/mostra</button>
+
+
+<ul *ngIf ="mostraLista">
+    <li  [ngClass]="song.favoriteClass" *ngFor="let song of listaCanzoni">
+        
+        {{song.title}} : {{song.album.title}}  
+        <button (click)="makeFavorite(song)">preferita</button>
+    </li>
+</ul>
