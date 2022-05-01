@@ -1,3 +1,4 @@
+// Importo tutto il necessario le varie classi e i vari componenti
 import { Component, Input } from '@angular/core';
 import { AlbumList } from './albumList.model';
 import { Album } from './album.model';
@@ -13,26 +14,35 @@ import { Observable } from 'rxjs';
 })
 
 export class AppComponent {
-  
+  //creo una variabile che mi permette di capire la opzione selezionata
   selectedOption : string;
+  // inserisco il titoli
   title = "Benvenuti al canzoniere";
+  // indico che albums è uguale a album list 
   albums = AlbumList;
+  // dico che selectedAlbum prende gli attributi dalla classe albuum e li inserisce nell'arrey vuoto AlbumList
   selectedAlbum: Album = AlbumList[0];
+
   songList: Song[];  //Questo vettore va passato al componente sonList
+  // creo un observable un oggetto che notifica quando arriva la risposta http dal server
   obsSongs : Observable<Song[]>;
-  
+  //costruttore con la richesta http
   constructor(public  http: HttpClient) { 
 
   }
 
   ngOnInit() {
+    // indichiamo che songList è un array che verrà riempito dalla variabile song
     this.songList = new Array <Song>();
+    // un metodo che faccia una get ma ritorni un observable che ritorni i dati in una lista di oggetti
     this.obsSongs = this.http.get<Song[]>("https://my-json-server.typicode.com/malizia-g/hotel/songlist");
+    //Attacchiamo all'Observable o un metodo "observer" che verrà lanciato quando arriva la risposta
     this.obsSongs.subscribe(this.getSongs);
   }
-
+    //Il metodo che notifica la risposta 
   getSongs = (data : Song[]) =>
   {
+    //Notifico l’oggetto ricevuto dal server
     this.songList = data;
   }
 
